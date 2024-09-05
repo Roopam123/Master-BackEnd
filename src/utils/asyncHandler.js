@@ -1,20 +1,22 @@
-const asyncHandler = (fun = async (req, res, next) => {
-  try {
-    await fun(req, res, next);
-  } catch (error) {
-    res.status(error.code || 500).json({
-      success: false,
-      massage: error.massage,
+const asyncHandler = (func) => {
+  return (req, res, next) => {
+    Promise.resolve(func(req, res, next)).catch((error) => {
+      next(error);
     });
-  }
-});
+  };
+};
 
-export { asyncHandler };
+export default asyncHandler;
 
-// const asyncHandler = (func) => {
-//   (req, res, next) => {
-//     Promise.resolve(func(req, res, next)).catch((error) => {
-//       next(error);
+// const asyncHandler = (fun = (req, res, next) => {
+//   try {
+//     return fun(req, res, next);
+//   } catch (error) {
+//     res.status(error.code || 500).json({
+//       success: false,
+//       massage: error.massage,
 //     });
-//   };
-// };
+//   }
+// });
+
+// export default asyncHandler;

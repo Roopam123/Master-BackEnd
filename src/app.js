@@ -18,5 +18,12 @@ app.use(express.json({ limit: "100kb" }));
 // when resive data from url
 app.use(express.urlencoded({ extended: true, limit: "100kb" }));
 app.use(express.static("public"));
+app.use(cookieParser());
+
+// route import
+import userRouter from "./routes/user.router.js";
+
+// routes
+app.use("/api/v1/users", userRouter);
 
 export { app };
